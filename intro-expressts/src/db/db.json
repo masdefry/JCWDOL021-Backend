@@ -1,18 +1,12 @@
 {
-  "products": [
+  "expenses": [
     {
-      "id": 1,
-      "name": "Kaos Cotton Combed 30s",
-      "color": "Hitam",
-      "price": 75000,
-      "stocks": 300
-    },
-    {
-      "id": 2,
-      "name": "Kemeja Polos",
-      "color": "Biru",
-      "price": 150000,
-      "stocks": 100
+      "id": 1, 
+      "title": "Bensin Motor",
+      "nominal": 35000,
+      "type": "EXPENSE",
+      "category": "TRANSPORT",
+      "date": "2025-07-09"
     }
   ]
 }

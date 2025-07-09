@@ -13,49 +13,58 @@ appServer.get('/api', (_: Request, res: Response) => {
   });
 });
 
-appServer.get('/api/products', (_: Request, res: Response) => {
-  // Step-01: Read data from db.json (using fs)
-  const db = fs.readFileSync('./src/db/db.json', 'utf-8');
-  const dbParse = JSON.parse(db);
+// req.url, req.body, req.headers
+// req.url : params
+//         : query ?start-date=2024-01-01&end-date=2024-02-02&category=TRANSPORT
+appServer.get(
+  '/api/expenses/:expenseId',
+  async (req: Request, res: Response) => {
+    // Step-01: Get expenseId from params
+    const { expenseId } = req.params;
 
-  // Step-02: Send data as response
-  res.json({
-    message: 'Get products successful',
-    products: dbParse?.products,
-  });
-});
+    // Step-02: Find data expenses with expenseId
+    const db = fs.readFileSync('./src/db/db.json', 'utf8');
+    const dbParse = await JSON.parse(db);
 
-appServer.post('/api/products', (req: Request, res: Response) => {
-  const { name, price, stocks, color } = req.body;
+    const findExpenseByExpenseId = dbParse?.expenses?.filter(
+      (expense) => expense.id === parseInt(expenseId)
+    );
 
-  // Step-02: Current data from db.json 
-  const db = fs.readFileSync('./src/db/db.json', 'utf-8');
-  const dbParse = JSON.parse(db);
-  console.log(dbParse)
-  dbParse?.products?.push({id: dbParse?.products?.length+1, name, color, price, stocks})
-  console.log(dbParse)
+    if (findExpenseByExpenseId.length === 0)
+      res.status(404).json({
+        message: `Get detail expense with id = ${expenseId} not found`,
+      });
 
-  // Step-01: Save data from req.body to db.json
-  fs.writeFileSync(
-    './src/db/db.json',
-    JSON.stringify(dbParse)
+    res.status(200).json({
+      message: `Get detail expense with id = ${expenseId} successfull`,
+      expense: findExpenseByExpenseId,
+    });
+  }
+);
+
+appServer.get('/api/expenses', async (req: Request, res: Response) => {
+  const query = req.query;
+  const startDate = query['start-date'];
+  const endDate = query['end-date'];
+  const category = query['category'];
+
+  const db = fs.readFileSync('./src/db/db.json', 'utf8');
+  const dbParse = await JSON.parse(db);
+
+  const findExpensesByCategoryOrDateRange = dbParse?.expenses?.filter(
+    (expense) => {
+      return (
+        expense.category === category ||
+        (expense.date >= startDate! && expense.date <= endDate!)
+      );
+    }
   );
 
-  // Step-02: Send response
-  res.json({
-    message: 'Create product successful',
-    product: {
-      name,
-      price,
-      stocks,
-      color,
-    },
-  });
+  res.status(200).json({
+    message: `Get expense by date range or category success`, 
+    expenses: findExpensesByCategoryOrDateRange
+  })
 });
-
-// Update
-
-// Delete
 
 appServer.listen(port, () => {
   console.log(`✅ Server is running on port ${port}`);
