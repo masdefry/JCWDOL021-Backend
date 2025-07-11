@@ -8,9 +8,9 @@ Hello, Fullstack Students! 👋
 
                 npm init --yes
 
-        3. Install Express Typescript
+        3. Install Express Typescript & MySql2
 
-                npm i express @types/express @types/node
+                npm i express @types/express @types/node mysql2
 
                 npm i -D typescript concurrently nodemon
 
