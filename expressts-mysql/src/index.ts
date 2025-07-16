@@ -1,5 +1,4 @@
 import express, { Express, Request, Response } from 'express';
-import connection from './connection';
 
 const app: Express = express();
 app.use(express.json());
@@ -9,16 +8,11 @@ app.get('/', (req: Request, res: Response) => {
   res.send('<h1>Welcome to Express Typescript Server</h1>');
 });
 
-app.get('/api/products', async (req: Request, res: Response) => {
-  const findProducts = await connection
-    .promise()
-    .query('SELECT * FROM products');
+import mainRouter from './routers/index.router';
+app.use(mainRouter);
 
-  res.status(200).json({
-    message: 'Get products success',
-    products: findProducts[0],
-  });
-});
+// Controller (Handle request, response) -> (Handle request, response, logika backend, komunikasi db (query db))
+// Router (Handle routing)
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
