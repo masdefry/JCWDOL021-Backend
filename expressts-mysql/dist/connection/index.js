@@ -4,10 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mysql2_1 = __importDefault(require("mysql2"));
-const connection = mysql2_1.default.createConnection({
+const db = mysql2_1.default.createConnection({
     host: 'localhost',
     user: 'root',
-    database: 'jcwdol021_intro',
+    database: 'sakila',
     password: 'abc12345'
 });
-exports.default = connection;
+exports.default = db;
