@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.errorHandlerValidator = void 0;
+const express_validator_1 = require("express-validator");
+const errorHandlerValidator = (req, res, next) => {
+    try {
+        const errors = (0, express_validator_1.validationResult)(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                success: false,
+                message: errors.array()[0].msg,
+            });
+        }
+        next();
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
+exports.errorHandlerValidator = errorHandlerValidator;

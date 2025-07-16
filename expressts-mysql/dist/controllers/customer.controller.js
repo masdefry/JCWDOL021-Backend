@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findDetailCustomerById = void 0;
+exports.registerCustomerController = exports.findDetailCustomerById = void 0;
 const connection_1 = __importDefault(require("../connection"));
 const findDetailCustomerById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c;
@@ -23,8 +23,6 @@ join inventory i on r.inventory_id = i.inventory_id
 join film f on i.film_id = f.film_id
 join staff s on r.staff_id = s.staff_id
 where c.customer_id = ?`, [customerId]);
-    console.log('Before MAP');
-    console.log(detailCustomer);
     const rentals = (_a = detailCustomer[0]) === null || _a === void 0 ? void 0 : _a.map((rental) => {
         return {
             title: rental === null || rental === void 0 ? void 0 : rental.title,
@@ -33,16 +31,26 @@ where c.customer_id = ?`, [customerId]);
             staff_name: rental === null || rental === void 0 ? void 0 : rental.staff_name,
         };
     });
-    console.log('After MAP');
-    console.log(rentals);
     res.status(200).json({
         success: true,
         message: 'Retrieved rental history for customer',
         data: {
             customer_name: (_b = detailCustomer[0][0]) === null || _b === void 0 ? void 0 : _b.customer_name,
             email: (_c = detailCustomer[0][0]) === null || _c === void 0 ? void 0 : _c.email,
-            rentals
-        }
+            rentals,
+        },
     });
 });
 exports.findDetailCustomerById = findDetailCustomerById;
+const registerCustomerController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { first_name, last_name, email, store_id, address } = req.body;
+    const [findCity] = yield connection_1.default
+        .promise()
+        .query(`SELECT * FROM city WHERE city_id = ?`, [address === null || address === void 0 ? void 0 : address.city_id]);
+    if (findCity.length === 0)
+        return res.status(404).json({
+            success: false,
+            message: `City with id ${address === null || address === void 0 ? void 0 : address.city_id} not found`
+        });
+});
+exports.registerCustomerController = registerCustomerController;
