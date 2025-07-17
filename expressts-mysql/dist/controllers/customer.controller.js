@@ -43,14 +43,46 @@ where c.customer_id = ?`, [customerId]);
 });
 exports.findDetailCustomerById = findDetailCustomerById;
 const registerCustomerController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const { first_name, last_name, email, store_id, address } = req.body;
     const [findCity] = yield connection_1.default
         .promise()
-        .query(`SELECT * FROM city WHERE city_id = ?`, [address === null || address === void 0 ? void 0 : address.city_id]);
+        .query(`SELECT * FROM city WHERE city_id = ?`, [
+        address === null || address === void 0 ? void 0 : address.city_id,
+    ]);
     if (findCity.length === 0)
         return res.status(404).json({
             success: false,
-            message: `City with id ${address === null || address === void 0 ? void 0 : address.city_id} not found`
+            message: `City with id ${address === null || address === void 0 ? void 0 : address.city_id} not found`,
         });
+    const [findStore] = yield connection_1.default
+        .promise()
+        .query(`SELECT * FROM store WHERE store_id = ?`, [
+        store_id,
+    ]);
+    if (findStore.length === 0) {
+        return res.status(404).json({
+            success: false,
+            message: `Store with id ${store_id} not found`,
+        });
+    }
+    const createdAddress = yield connection_1.default
+        .promise()
+        .query(`INSERT INTO address(address, address2, district, city_id, postal_code, phone, location) VALUES (?, ?, ?, ?, ?, ?, ST_GeomFromText('POINT (-112.8185647 49.6999986)'))`, [
+        address === null || address === void 0 ? void 0 : address.address,
+        address === null || address === void 0 ? void 0 : address.address2,
+        address === null || address === void 0 ? void 0 : address.district,
+        address === null || address === void 0 ? void 0 : address.city_id,
+        address === null || address === void 0 ? void 0 : address.postal_code,
+        address === null || address === void 0 ? void 0 : address.phone,
+    ]);
+    const createdCustomer = yield connection_1.default
+        .promise()
+        .query(`INSERT INTO customer(store_id, first_name, last_name, email, address_id) VALUES(?, ?, ?, ?, ?)`, [store_id, first_name, last_name, email, (_a = createdAddress[0]) === null || _a === void 0 ? void 0 : _a.insertId]);
+    res.status(201).json({
+        success: true,
+        message: `Create new customer data successful`,
+        data: { first_name, last_name, email, store_id, address },
+    });
 });
 exports.registerCustomerController = registerCustomerController;

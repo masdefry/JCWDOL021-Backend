@@ -1,4 +1,4 @@
-import { RowDataPacket } from 'mysql2';
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import db from '../connection';
 import { Request, Response } from 'express';
 
@@ -41,10 +41,53 @@ export const registerCustomerController = async (
 
   const [findCity] = await db
     .promise()
-    .query<RowDataPacket[]>(`SELECT * FROM city WHERE city_id = ?`, [address?.city_id]);
-  
-    if(findCity.length === 0) return res.status(404).json({
-        success: false, 
-        message: `City with id ${address?.city_id} not found`
-    })
+    .query<RowDataPacket[]>(`SELECT * FROM city WHERE city_id = ?`, [
+      address?.city_id,
+    ]);
+
+  if (findCity.length === 0)
+    return res.status(404).json({
+      success: false,
+      message: `City with id ${address?.city_id} not found`,
+    });
+
+  const [findStore] = await db
+    .promise()
+    .query<RowDataPacket[]>(`SELECT * FROM store WHERE store_id = ?`, [
+      store_id,
+    ]);
+
+  if (findStore.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: `Store with id ${store_id} not found`,
+    });
+  }
+
+  const createdAddress = await db
+    .promise()
+    .query(
+      `INSERT INTO address(address, address2, district, city_id, postal_code, phone, location) VALUES (?, ?, ?, ?, ?, ?, ST_GeomFromText('POINT (-112.8185647 49.6999986)'))`,
+      [
+        address?.address,
+        address?.address2,
+        address?.district,
+        address?.city_id,
+        address?.postal_code,
+        address?.phone,
+      ]
+    );
+
+  const createdCustomer = await db
+    .promise()
+    .query(
+      `INSERT INTO customer(store_id, first_name, last_name, email, address_id) VALUES(?, ?, ?, ?, ?)`,
+      [store_id, first_name, last_name, email, createdAddress[0]?.insertId]
+    );
+
+  res.status(201).json({
+    success: true,
+    message: `Create new customer data successful`,
+    data: { first_name, last_name, email, store_id, address },
+  });
 };
