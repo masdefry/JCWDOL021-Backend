@@ -66,15 +66,17 @@ const registerCustomerController = (req, res) => __awaiter(void 0, void 0, void 
             message: `Store with id ${store_id} not found`,
         });
     }
+    const point = `POINT (${address === null || address === void 0 ? void 0 : address.point1} ${address === null || address === void 0 ? void 0 : address.point2})`;
     const createdAddress = yield connection_1.default
         .promise()
-        .query(`INSERT INTO address(address, address2, district, city_id, postal_code, phone, location) VALUES (?, ?, ?, ?, ?, ?, ST_GeomFromText('POINT (-112.8185647 49.6999986)'))`, [
+        .query(`INSERT INTO address(address, address2, district, city_id, postal_code, phone, location) VALUES (?, ?, ?, ?, ?, ?, ST_GeomFromText(?))`, [
         address === null || address === void 0 ? void 0 : address.address,
         address === null || address === void 0 ? void 0 : address.address2,
         address === null || address === void 0 ? void 0 : address.district,
         address === null || address === void 0 ? void 0 : address.city_id,
         address === null || address === void 0 ? void 0 : address.postal_code,
         address === null || address === void 0 ? void 0 : address.phone,
+        point
     ]);
     const createdCustomer = yield connection_1.default
         .promise()

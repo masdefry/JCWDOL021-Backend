@@ -10,8 +10,8 @@ const customerRouter = Router();
 customerRouter.get('/:customerId/rentals', findDetailCustomerById);
 customerRouter.post(
   '/',
-  // registerCustomerValidator,
-  // errorHandlerValidator,
+  registerCustomerValidator,
+  errorHandlerValidator,
   registerCustomerController
 );
 

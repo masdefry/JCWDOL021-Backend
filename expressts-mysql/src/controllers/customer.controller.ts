@@ -64,10 +64,12 @@ export const registerCustomerController = async (
     });
   }
 
+  const point = `POINT (${address?.point1} ${address?.point2})`
+
   const createdAddress = await db
     .promise()
-    .query(
-      `INSERT INTO address(address, address2, district, city_id, postal_code, phone, location) VALUES (?, ?, ?, ?, ?, ?, ST_GeomFromText('POINT (-112.8185647 49.6999986)'))`,
+    .query<ResultSetHeader>(
+      `INSERT INTO address(address, address2, district, city_id, postal_code, phone, location) VALUES (?, ?, ?, ?, ?, ?, ST_GeomFromText(?))`,
       [
         address?.address,
         address?.address2,
@@ -75,12 +77,13 @@ export const registerCustomerController = async (
         address?.city_id,
         address?.postal_code,
         address?.phone,
+        point
       ]
     );
 
   const createdCustomer = await db
     .promise()
-    .query(
+    .query<ResultSetHeader>(
       `INSERT INTO customer(store_id, first_name, last_name, email, address_id) VALUES(?, ?, ?, ?, ?)`,
       [store_id, first_name, last_name, email, createdAddress[0]?.insertId]
     );

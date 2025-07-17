@@ -1,27 +1,27 @@
 {
-  "name": "expressts-mysql",
+  "name": "expressts-orm",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc",
-    "start": "node dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon",
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^6.12.0",
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.14",
-    "express": "^5.1.0",
-    "express-validator": "^7.2.1",
-    "mysql2": "^3.14.1"
+    "express": "^5.1.0"
   },
   "devDependencies": {
-    "concurrently": "^9.2.0",
     "nodemon": "^3.1.10",
+    "prisma": "^6.12.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
-  },
-  "description": ""
+  }
 }
