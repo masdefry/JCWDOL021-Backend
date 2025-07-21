@@ -1,5 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import { createUserService, findUsersService } from '../services/users.service/users.service';
+import {
+  createUserService,
+  deleteUserService,
+  findUsersService,
+  updateUserService,
+} from '../services/users.service/users.service';
 
 // Controller : Request & Response
 // Services   : Logika Backend -> Logika Backend & Komunikasi Database
@@ -34,17 +39,48 @@ export const findUsersController = async (
   next: NextFunction
 ) => {
   try {
-    const users = await findUsersService()
-    
+    const users = await findUsersService();
+
     res.status(200).json({
-      success: true, 
-      message: 'Get users successful', 
-      data: users
-    })
+      success: true,
+      message: 'Get users successful',
+      data: users,
+    });
   } catch (error: any) {
     res.status(500).json({
       success: false,
       message: error?.message,
     });
   }
+};
+
+export const updateUserController = async (req: Request, res: Response) => {
+  try {
+    const { email, name, password } = req.body;
+    const { id } = req.params;
+
+    await updateUserService({ email, name, password, id });
+
+    res.status(200).json({
+      success: true,
+      message: `Update user with id = ${id} successfull`,
+      data: { email, name },
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error?.message,
+    });
+  }
+};
+
+export const deleteUserController = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  await deleteUserService({ id });
+
+  res.status(200).json({
+    success: true,
+    message: `Delete user with id = ${id} successful`,
+  });
 };
