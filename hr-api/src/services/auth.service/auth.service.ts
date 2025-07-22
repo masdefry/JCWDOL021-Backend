@@ -6,10 +6,10 @@ import jwt from 'jsonwebtoken';
 export const authRegisterService = async ({
   fullName,
   email,
-  password,
+  password = 'newEmployee2025',
   role,
   shiftId
-}: Omit<User, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>) => {
+}: Omit<User, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt' | 'leaveBalance'>) => {
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 

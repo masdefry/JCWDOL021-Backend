@@ -20,6 +20,7 @@ model User{
   fullName  String 
   email     String
   password  String  @default("newEmployee2025")
+  leaveBalance Int? @default(12)
   role      Role 
 
   shiftId   Int 
