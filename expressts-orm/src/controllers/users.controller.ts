@@ -59,7 +59,7 @@ export const updateUserController = async (req: Request, res: Response) => {
     const { email, name, password } = req.body;
     const { id } = req.params;
 
-    await updateUserService({ email, name, password, id });
+    // await updateUserService({ email, name, password, id });
 
     res.status(200).json({
       success: true,

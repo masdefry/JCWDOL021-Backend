@@ -14,6 +14,7 @@ app.use(mainRouter);
 
 // Centralized Error (Middleware 1 Aplikasi);
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+  console.log(error);
   res.status(500).json({
     success: false,
     message: error?.isExpose ? error?.message : 'Something went wrong',

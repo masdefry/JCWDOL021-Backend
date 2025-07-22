@@ -7,13 +7,13 @@ export const createUserService = async ({
   email,
   password,
 }: Omit<IUsersProps, 'id'>) => {
-  await prisma.user.create({
-    data: {
-      name,
-      email,
-      password,
-    },
-  });
+  // await prisma.user.create({
+  //   data: {
+  //     name,
+  //     email,
+  //     password,
+  //   },
+  // });
 };
 
 export const findUsersService = async () => {
@@ -22,6 +22,7 @@ export const findUsersService = async () => {
       email: true,
       name: true,
     },
+    where: { deletedAt: null },
   });
 };
 
@@ -44,9 +45,19 @@ export const updateUserService = async ({
 export const deleteUserService = async ({ id }: Pick<User, 'id'>) => {
   const findUserById = await prisma.user.findUnique({ where: { id } });
 
-  if(!findUserById) throw { message: `User with id = ${id} not found`, isExpose: true }
+  if (!findUserById)
+    throw { message: `User with id = ${id} not found`, isExpose: true };
 
-  await prisma.user.delete({
+  // Hard Delete
+  // await prisma.user.delete({
+  //   where: { id },
+  // });
+
+  // Soft Delete
+  await prisma.user.update({
+    data: {
+      deletedAt: new Date(),
+    },
     where: { id },
   });
 };
