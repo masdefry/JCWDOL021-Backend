@@ -4,20 +4,22 @@ import bcrypt, { compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 export const authRegisterService = async ({
-  name,
+  fullName,
   email,
   password,
   role,
+  shiftId
 }: Omit<User, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>) => {
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   await prisma.user.create({
     data: {
-      name,
+      fullName,
       email,
       password: hashedPassword,
       role,
+      shiftId
     },
   });
 };
@@ -26,8 +28,8 @@ export const authLoginService = async ({
   email,
   password,
 }: Pick<User, 'email' | 'password'>) => {
-  // Step-01 Find data user based on email
-  const findUserByEmail = await prisma.user.findUnique({
+
+  const findUserByEmail = await prisma.user.findFirst({
     where: { email },
   });
 

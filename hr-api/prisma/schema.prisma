@@ -10,18 +10,20 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-model User {
-  id       String @id @default(cuid())
-  email    String @unique
-  name     String
-  password String
-  role Role
+model User{
+  id    String  @id @default(uuid())
+  fullName  String 
+  email     String
+  password  String  @default("newEmployee2025")
+  role      Role 
 
-  user_addresses UserAddress[]
+  shiftId   Int 
+  shifts Shift @relation(fields: [shiftId], references: [id])
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -31,21 +33,21 @@ model User {
 }
 
 enum Role{
-  ADMIN 
-  USER
+  HR 
+  MANAGER
+  STAFF
 }
 
-model UserAddress {
-  id        Int    @id @default(autoincrement())
-  consignee String
-  address   String
+model Shift{
+  id    Int   @id   @default(autoincrement())
+  startTime DateTime @db.Time
+  endTime   DateTime @db.Time 
 
-  userId String @unique
-  users  User   @relation(fields: [userId], references: [id])
+  users User[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  @@map("user_addresses")
+  @@map("shifts")
 }

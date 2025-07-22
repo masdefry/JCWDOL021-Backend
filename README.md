@@ -53,7 +53,7 @@ How to Setup Express Typescript?
 
                 ➡️ npm install prisma --save-dev
 
-                ➡️ npx prisma init --datasource-provider mysql
+                ➡️ npx prisma init --datasource-provider postgresql
 
         2. Edit `DATABASE_URL` on File `.env`
 
