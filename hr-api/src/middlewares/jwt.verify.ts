@@ -11,8 +11,10 @@ export const jwtVerify = async (
   if (!token) throw { isExpose: true, message: 'Token must be provided' };
 
   const payload = jwt.verify(token, process.env.JWT_SECRET_KEY!);
-  
-  req.body.payload = payload
+
+  console.log(payload);
+
+  (req as any).payload = payload;
 
   next();
 };

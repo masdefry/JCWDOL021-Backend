@@ -5,7 +5,7 @@ import { NextFunction, Request, Response } from 'express';
 
 export const roleVerify = (authorizeRole: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const { role } = req.body.payload;
+    const { role } = (req as any).payload;
     
     if(!authorizeRole.includes(role)) throw { isExpose: true, message: 'Unauthorize user role' }
 

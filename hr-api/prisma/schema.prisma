@@ -26,6 +26,8 @@ model User{
   shiftId   Int 
   shifts Shift @relation(fields: [shiftId], references: [id])
 
+  attendances Attendance[]
+
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
@@ -51,4 +53,20 @@ model Shift{
   deletedAt DateTime?
 
   @@map("shifts")
+}
+
+model Attendance{
+  id  Int @id @default(autoincrement())
+  clockIn DateTime @db.Time
+  clockOut DateTime? @db.Time
+  attendanceDate DateTime @db.Date
+
+  userId String
+  users User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("attendances")
 }
