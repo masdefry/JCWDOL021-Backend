@@ -1,7 +1,9 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
+import cors from 'cors';
 
 const app: Express = express();
 app.use(express.json());
+app.use(cors());
 const port = 5000;
 
 import mainRouter from './routers/index.router';

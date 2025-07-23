@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Reset Password</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        background-color: #ffffff;
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        text-align: center;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #ddd;
+      }
+      .header img {
+        width: 120px;
+        margin-bottom: 10px;
+      }
+      .title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333333;
+      }
+      .body {
+        margin-top: 20px;
+        font-size: 16px;
+        color: #555555;
+        line-height: 1.5;
+      }
+      .btn {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 12px 24px;
+        background-color: #007bff;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+      }
+      .footer {
+        margin-top: 40px;
+        font-size: 12px;
+        color: #999999;
+        text-align: center;
+      }
+      .code {
+        font-weight: bold;
+        font-size: 18px;
+        color: #222;
+        background: #f1f1f1;
+        padding: 10px;
+        border-radius: 6px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <img
+          src="https://yourcompany.com/logo.png"
+          alt="Company Logo"
+        />
+        <div class="title">Reset Password Akun Karyawan</div>
+      </div>
+
+      <div class="body">
+        <p>Halo <strong>{{fullName}}</strong>,</p>
+
+        <p>
+          Selamat bergabung di <strong>{{companyName}}</strong>! Akun Anda
+          telah dibuat, namun Anda perlu mengatur ulang password untuk keamanan.
+        </p>
+
+        <p>Silakan klik tombol di bawah ini untuk mengatur password Anda:</p>
+
+        <p style="text-align: center">
+          <a
+            class="btn"
+            href="{{resetLinkPassword}}"
+            target="_blank"
+            >Atur Ulang Password</a
+          >
+        </p>
+
+        <p>
+          Jika tombol di atas tidak berfungsi, salin dan tempel link berikut ke
+          browser Anda:
+        </p>
+        <p><a href="{{resetLinkPassword}}">{{resetLinkPassword}}</a></p>
+
+        <p>Link ini hanya berlaku selama <strong>24 jam</strong>.</p>
+
+        <p>Jika Anda tidak meminta reset password, abaikan email ini.</p>
+
+        <p>Terima kasih,<br />Tim HRD {{companyName}}</p>
+      </div>
+
+      <div class="footer">
+        &copy; 2025 {{companyName}}. All rights reserved.
+      </div>
+    </div>
+  </body>
+</html>

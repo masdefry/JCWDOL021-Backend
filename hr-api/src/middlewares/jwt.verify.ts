@@ -12,9 +12,7 @@ export const jwtVerify = async (
 
   const payload = jwt.verify(token, process.env.JWT_SECRET_KEY!);
 
-  console.log(payload);
-
-  (req as any).payload = payload;
+  res.locals.payload = payload;
 
   next();
 };

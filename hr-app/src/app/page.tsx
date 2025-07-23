@@ -1,15 +1,21 @@
+'use client';
 import Link from 'next/link';
 import { LiaClipboardListSolid } from 'react-icons/lia';
 import { PiUserCirclePlusDuotone } from 'react-icons/pi';
 import { PiClockCountdownDuotone } from 'react-icons/pi';
 import { RiFileList3Line } from 'react-icons/ri';
+import useAuthStore from '@/store/useAuthStore';
+
 export default function Home() {
+  const { fullName } = useAuthStore();
   return (
     <div className='p-4'>
       {/* Header */}
       <div className='text-black'>
         <h1 className='text-2xl'>Good morning,</h1>
-        <h1 className='text-2xl font-bold'>Defryan</h1>
+        <h1 className='text-2xl font-bold'>
+          {fullName ? fullName : 'Please login first'}
+        </h1>
         <p>Dont miss your attendance today!</p>
         <div className='bg-green-400 rounded-md mt-3 p-3'>
           <h1 className='text-white'>Shift-01</h1>
