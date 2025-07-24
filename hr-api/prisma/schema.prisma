@@ -70,3 +70,38 @@ model Attendance{
 
   @@map("attendances")
 }
+
+model TimeOff{
+  id  Int @id @default(autoincrement())
+  timeOffType TimeOffType
+  reason String 
+
+  time_off_evidences TimeOffEvidence[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("time_off")
+}
+
+model TimeOffEvidence{
+  id  Int @id @default(autoincrement())
+  imageUrl String 
+
+  timeOffId Int 
+  time_off TimeOff @relation(fields: [timeOffId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("time_off_evidences")
+}
+
+enum TimeOffType{
+  IZIN_MENIKAH
+  IZIN_MENIKAHKAN
+  IZIN_SAKIT
+  IZIN_CUTI_TAHUNAN
+}
