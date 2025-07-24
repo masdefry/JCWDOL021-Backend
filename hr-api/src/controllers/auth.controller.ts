@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import {
   authLoginService,
   authRegisterService,
+  resetPasswordService,
 } from '../services/auth.service/auth.service';
 
 export const authRegisterController = async (req: Request, res: Response) => {
@@ -37,3 +38,15 @@ export const authLoginController = async (req: Request, res: Response) => {
     data: { token, fullName, role },
   });
 };
+
+export const resetPasswordController = async(req: Request, res: Response) => {
+  const { password } = req.body;
+  const { userId } = res.locals.payload
+
+  await resetPasswordService({id: userId, password})
+
+  res.status(200).json({
+    success: true, 
+    message: 'Password updated successfully'
+  })
+}
