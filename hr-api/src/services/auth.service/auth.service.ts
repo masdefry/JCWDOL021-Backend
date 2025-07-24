@@ -68,12 +68,12 @@ export const authLoginService = async ({
 
   if (!comparePassword) throw { message: 'Password not valid', isExpose: true };
 
-  const token = jwtSign(
+  const token = await jwtSign(
     { userId: findUserByEmail?.id, role: findUserByEmail?.role },
     process.env.JWT_SECRET_KEY!,
     { algorithm: 'HS256' }
   );
-
+  
   return {
     token,
     fullName: findUserByEmail?.fullName,

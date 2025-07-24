@@ -47,7 +47,7 @@ export default function Page() {
       email,
       password,
     });
-
+    console.log(res);
     setAuth({
       fullName: res?.data?.data?.fullName,
       role: res?.data?.data?.email,
