@@ -3,7 +3,7 @@ import { createTimeOffService } from '../services/timeoff.service';
 
 export const createTimeOffController = async (req: Request, res: Response) => {
   const { timeOffType, reason } = req.body;
-  console.log(req?.files);
+  
   const timeOffEvidence = Array.isArray(req?.files)
     ? req.files
     : req.files
