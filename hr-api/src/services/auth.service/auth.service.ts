@@ -73,7 +73,7 @@ export const authLoginService = async ({
     process.env.JWT_SECRET_KEY!,
     { algorithm: 'HS256' }
   );
-  
+
   return {
     token,
     fullName: findUserByEmail?.fullName,
@@ -99,3 +99,16 @@ export const resetPasswordService = async ({
 };
 
 // Mendaftarkan karyawan baru -> HR -> Password default -> Email reset password sekaligus aktivasi akunnya
+export const authSessionLoginService = async ({
+  userId,
+}: {
+  userId: string;
+}) => {
+  const findUserById = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  return { role: findUserById?.role, fullName: findUserById?.fullName };
+};

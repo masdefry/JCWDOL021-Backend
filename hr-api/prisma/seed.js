@@ -24,9 +24,9 @@ const users = [
 ];
 
 async function main() {
-  //   await prisma.shift.createMany({
-  //     data: shift,
-  //   });
+    await prisma.shift.createMany({
+      data: shift,
+    });
 
   await prisma.user.createMany({
     data: users,

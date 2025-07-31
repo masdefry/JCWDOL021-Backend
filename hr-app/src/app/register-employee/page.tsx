@@ -11,8 +11,9 @@ import { useFormik } from 'formik';
 import { IAuth } from '../login/page';
 import { axiosInstance } from '@/utils/axiosInstance';
 import useAuthStore from '@/store/useAuthStore';
+import AuthGuard from '@/hoc/AuthGuard';
 
-export default function Page() {
+function Page() {
   const { token } = useAuthStore();
   const formik = useFormik({
     initialValues: {
@@ -124,3 +125,5 @@ export default function Page() {
     </>
   );
 }
+
+export default AuthGuard(Page, ['HR']);

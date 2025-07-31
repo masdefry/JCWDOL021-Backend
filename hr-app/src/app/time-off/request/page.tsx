@@ -13,8 +13,10 @@ import {
   IRequestTimeOffProps,
 } from '@/features/time-off/request/types';
 import { format } from 'date-fns';
+import useAuthStore from '@/store/useAuthStore';
 
 export default function Page() {
+  const { token } = useAuthStore();
   const onHandleRequestTimeOff = async ({
     timeOffType,
     reason,
@@ -27,7 +29,11 @@ export default function Page() {
       formData.append('evidence', evidenceItem);
     });
 
-    await axiosInstance.post('/api/time-off/request', formData);
+    await axiosInstance.post('/api/time-off/request', formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   };
 
   const formik = useFormik({

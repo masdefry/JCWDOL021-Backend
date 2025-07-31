@@ -3,7 +3,7 @@ import { TimeOff } from '../generated/prisma';
 import { cloudinaryUpload } from '../lib/cloudinary.upload';
 
 interface ICreateTimeOffServiceProps
-  extends Pick<TimeOff, 'timeOffType' | 'reason'> {
+  extends Pick<TimeOff, 'timeOffType' | 'reason' | 'requestById'> {
   timeOffEvidence: Express.Multer.File[];
 }
 
@@ -11,12 +11,14 @@ export const createTimeOffService = async ({
   timeOffType,
   reason,
   timeOffEvidence,
+  requestById
 }: ICreateTimeOffServiceProps) => {
   return await prisma.$transaction(async (tx) => {
     const createdTimeOff = await tx.timeOff.create({
       data: {
         timeOffType,
         reason,
+        requestById
       },
     });
 

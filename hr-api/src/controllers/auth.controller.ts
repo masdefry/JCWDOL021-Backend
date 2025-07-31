@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import {
   authLoginService,
   authRegisterService,
+  authSessionLoginService,
   resetPasswordService,
 } from '../services/auth.service/auth.service';
 
@@ -39,14 +40,29 @@ export const authLoginController = async (req: Request, res: Response) => {
   });
 };
 
-export const resetPasswordController = async(req: Request, res: Response) => {
+export const resetPasswordController = async (req: Request, res: Response) => {
   const { password } = req.body;
-  const { userId } = res.locals.payload
+  const { userId } = res.locals.payload;
 
-  await resetPasswordService({id: userId, password})
+  await resetPasswordService({ id: userId, password });
 
   res.status(200).json({
-    success: true, 
-    message: 'Password updated successfully'
-  })
-}
+    success: true,
+    message: 'Password updated successfully',
+  });
+};
+
+export const authSessionLoginController = async (
+  req: Request,
+  res: Response
+) => {
+  const { userId } = res?.locals?.payload;
+
+  const { role, fullName } = await authSessionLoginService({ userId });
+
+  res.status(200).json({
+    success: true,
+    message: 'Session login user successfully',
+    data: { role, fullName },
+  });
+};

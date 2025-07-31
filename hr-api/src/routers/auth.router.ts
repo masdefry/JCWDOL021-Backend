@@ -2,6 +2,7 @@ import Router from 'express';
 import {
   authLoginController,
   authRegisterController,
+  authSessionLoginController,
   resetPasswordController,
 } from '../controllers/auth.controller';
 import { jwtVerify } from '../middlewares/jwt.verify';
@@ -16,5 +17,6 @@ authRouter.post(
 );
 authRouter.post('/login', authLoginController);
 authRouter.patch('/reset-password', jwtVerify, resetPasswordController);
+authRouter.get('/session-login', jwtVerify, authSessionLoginController);
 
 export default authRouter;
