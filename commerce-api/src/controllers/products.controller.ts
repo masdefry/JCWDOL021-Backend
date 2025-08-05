@@ -4,9 +4,9 @@ import redis from '../config/redis.config';
 
 export const getProductsController = async (req: Request, res: Response) => {
   const products = await prisma.product.findMany();
-  
+
   const cacheKey = 'products:all';
-  await redis.set(cacheKey, JSON.stringify(products));
+  await redis.set(cacheKey, JSON.stringify(products), 'EX', 3);
 
   res.status(200).json({
     success: true,

@@ -21,3 +21,13 @@
     at processParams (D:\Workspace\web-development-class\JCWDOL021\backend\commerce-api\node_modules\router\index.js:582:12)
     at next (D:\Workspace\web-development-class\JCWDOL021\backend\commerce-api\node_modules\router\index.js:291:5)
     at logger (D:\Workspace\web-development-class\JCWDOL021\backend\commerce-api\node_modules\morgan\index.js:144:5)
+[error] 2025-08-04 19:33:02: [GET] /api/products - Cannot set headers after they are sent to the client Cannot set headers after they are sent to the client - Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (node:internal/errors:406:5)
+    at ServerResponse.setHeader (node:_http_outgoing:652:11)
+    at ServerResponse.header (D:\Workspace\web-development-class\JCWDOL021\backend\commerce-api\node_modules\express\lib\response.js:684:10)
+    at ServerResponse.send (D:\Workspace\web-development-class\JCWDOL021\backend\commerce-api\node_modules\express\lib\response.js:161:12)
+    at ServerResponse.json (D:\Workspace\web-development-class\JCWDOL021\backend\commerce-api\node_modules\express\lib\response.js:250:15)
+    at D:\Workspace\web-development-class\JCWDOL021\backend\commerce-api\src\controllers\products.controller.ts:11:19
+    at Generator.next (<anonymous>)
+    at fulfilled (D:\Workspace\web-development-class\JCWDOL021\backend\commerce-api\src\controllers\products.controller.ts:5:58)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
